@@ -8,12 +8,12 @@ import (
 
 	"github.com/gyepisam/fileutils"
 	"github.com/gyepisam/multiflag"
-	"github.com/gyepisam/redux"
+	"github.com/maqroll/redux"
 )
 
 const (
 	DEFAULT_TARGET = string(redux.TASK_PREFIX) + "all"
-	DEFAULT_DO     = DEFAULT_TARGET + ".do"
+	DEFAULT_DO     = DEFAULT_TARGET + ".cmd"
 )
 
 var cmdRedo = &Command{
@@ -77,11 +77,10 @@ func runRedo(targets []string) error {
 		redux.ShellArgs = s
 	}
 
-    // if shell args are set, ensure that at least minimal verbosity is also set.
-    if redux.ShellArgs != "" && (verbosity.NArg() == 0) {
-      verbosity.Set("true")
-    }
-
+	// if shell args are set, ensure that at least minimal verbosity is also set.
+	if redux.ShellArgs != "" && (verbosity.NArg() == 0) {
+		verbosity.Set("true")
+	}
 
 	// Set explicit options to avoid clobbering environment inherited options.
 	if n := verbosity.NArg(); n > 0 {
@@ -93,7 +92,6 @@ func runRedo(targets []string) error {
 		os.Setenv("REDO_DEBUG", "true")
 		redux.Debug = true
 	}
-
 
 	// If no arguments are specified, use run default target if its .do file exists.
 	// Otherwise, print usage and exit.

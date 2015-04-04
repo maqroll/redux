@@ -34,7 +34,7 @@ extension removed.
 */
 func (f *File) findDoFile() (*DoInfo, error) {
 
-	candidates := []string{f.Name + ".do"}
+	candidates := []string{f.Name + ".cmd"}
 	ext := strings.Split(f.Name, ".")
 	for i := 0; i < len(ext); i++ {
 		candidates = append(candidates, strings.Join(append(append([]string{"default"}, ext[i+1:]...), "do"), "."))
@@ -70,7 +70,7 @@ TOP:
 	return &DoInfo{Missing: missing}, nil
 }
 
-const shell = "/bin/sh"
+const shell = "cmd.exe"
 
 // RunDoFile executes the do file script, records the metadata for the resulting output, then
 // saves the resulting output to the target file, if applicable.
@@ -156,6 +156,7 @@ func (target *File) RunDoFile(doInfo *DoInfo) (err error) {
 		return target.Errorf(".do file %s wrote to stdout and to file $3", target.DoFile)
 	}
 
+	os.Remove(target.Fullpath()) //LOC
 	err = os.Rename(out.Name(), target.Fullpath())
 
 	if err != nil && strings.Index(err.Error(), "cross-device") > -1 {
@@ -180,12 +181,12 @@ func (target *File) RunDoFile(doInfo *DoInfo) (err error) {
 
 func (target *File) runCmd(outputs [2]*Output, doInfo *DoInfo) error {
 
-	args := []string{"-e"}
+	args := []string{"/c"}
 
 	if ShellArgs != "" {
-		if ShellArgs[0] != '-' {
-			ShellArgs = "-" + ShellArgs
-		}
+		//if ShellArgs[0] != '-' {
+		//	ShellArgs = "-" + ShellArgs
+		//}
 		args = append(args, ShellArgs)
 	}
 

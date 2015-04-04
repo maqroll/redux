@@ -28,7 +28,7 @@ func init() {
 
 	bin := filepath.Join(binDir, "/redux")
 
-	err = exec.Command("go", "build", "-o", bin, "github.com/gyepisam/redux/redux").Run()
+	err = exec.Command("go", "build", "-o", bin, "github.com/maqroll/redux/redux").Run()
 	if err != nil {
 		panic(err)
 	}

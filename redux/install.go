@@ -13,7 +13,7 @@ import (
 	"strings"
 )
 
-const docPkg = "github.com/gyepisam/redux"
+const docPkg = "github.com/maqroll/redux"
 
 var cmdInstall = &Command{
 	UsageLine: "redux install [OPTIONS] [component, ...]",
